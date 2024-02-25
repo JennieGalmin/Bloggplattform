@@ -1,6 +1,6 @@
-
 using Microsoft.AspNetCore.Mvc;
 
+using Auth;
 
 namespace Bloggplattform;
 
@@ -29,9 +29,13 @@ public class Program
 [Route("api/auth")]
 public class AuthControllers : ControllerBase
 {
+    private readonly Register _register;
+    public AuthControllers(Register register){
+        _register = register;
+    }
     [HttpPost("register")]
-    public string Register(){
-        return "Register";
+    public void RegisterUser(User user){
+        _register.Register(user);
     }
     [HttpPost("login")]
     public string Login(){
@@ -59,11 +63,12 @@ public string GetPostById(){
 //POST/api/message/user/{userId} - Kan skicka meddelanden till en annan användare.
 [ApiController]
 [Route("api/message")]
+
 public class MessageController : ControllerBase{
-[HttpPost("")]//user/{userId}
-public string User()
+[HttpPost("user/{userId}")]
+public void User([FromBody] User user)
 {
- return "message";
+ 
 }
 }
 //DELETE/api/comments/{commentsId} - Tar bort en kommentar.

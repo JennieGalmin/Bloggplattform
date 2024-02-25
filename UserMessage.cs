@@ -1,14 +1,10 @@
-namespace UserAndMessage
-{
-public class User
-{
-    public string Name {get; set; }
-    public int Id {get; set; }
+using Microsoft.AspNetCore.Identity;
 
-    public User(string name, int id){
-        this.Name = name;
-        this.Id = id;
-    }
+public class User : IdentityUser
+{
+    public List<Post> Posts {get; set;} = new List<Post>();// vill att posterna ska sparas i en viss användare
+
+    public User(){}
 }
 public class UserMessage
 {
@@ -16,4 +12,3 @@ public class UserMessage
 
 }
 
-}
