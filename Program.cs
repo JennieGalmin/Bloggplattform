@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Identity;
 using Auth;
+
+
+
 
 namespace Bloggplattform;
 
@@ -10,12 +13,19 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
+        builder.Services.AddIdentityCore<User>()
+           //.AddEntityFrameworkStores<Post>()
+            .AddApiEndpoints();
         builder.Services.AddControllers();
         builder.Services.AddScoped<Register>();
 
         var app = builder.Build();
 
+        app.MapIdentityApi<User>();
         app.MapControllers();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.UseHttpsRedirection();
 
@@ -34,9 +44,11 @@ public class AuthControllers : ControllerBase
         _register = register;
     }
     [HttpPost("register")]
-    public void RegisterUser(User user){
-        _register.Register(user);
+    public IActionResult RegisterUser(string username, string password){
+        User registerdUser = _register.RegisterUser(username, password);
+        return Ok(registerdUser);
     }
+
     [HttpPost("login")]
     public string Login(){
         return "Login";

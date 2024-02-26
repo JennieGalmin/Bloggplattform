@@ -5,12 +5,15 @@ public class Post
     public string Title {get; set;}
     public string Content {get; set;}
     public DateTime CreationDate {get; set; }
-    public User Author {get; set; }
+    public User User {get; set; }
 
-    public Post(string title, string content, DateTime creationDate){
+    public Post (){}
+
+    public Post(string title, string content, User user){
         this.Title = title;
         this.Content = content;
-        this.CreationDate = creationDate;
+        this.CreationDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+        this.User = user;
     }
 }
 
