@@ -1,4 +1,9 @@
 //skapa postId som kopplas till userId när man ska skriva inlägg
+
+
+
+using Microsoft.EntityFrameworkCore;
+
 public class Post
 {
     public int Id {get; set;}
@@ -7,7 +12,7 @@ public class Post
     public DateTime CreationDate {get; set; }
     public User User {get; set; }
 
-    public Post (){}
+    
 
     public Post(string title, string content, User user){
         this.Title = title;
@@ -15,6 +20,13 @@ public class Post
         this.CreationDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
         this.User = user;
     }
+}
+
+public class PostDbContext : DbContext
+{
+    public  DbSet<Post> posts {get; set;}
+
+    public PostDbContext(DbContextOptions<PostDbContext> options) : base(options){}
 }
 
 

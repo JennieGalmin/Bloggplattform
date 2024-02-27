@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Auth;
+
 
 
 
@@ -13,11 +16,18 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddIdentity<User, IdentityRole>(options => {
+            options.Password.RequiredLength = 8;
+        })
+        .AddEntityFrameworkStores<ApplicationDBContext>();
         builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
         builder.Services.AddIdentityCore<User>()
            //.AddEntityFrameworkStores<Post>()
             .AddApiEndpoints();
         builder.Services.AddControllers();
+        builder.Services.AddDbContext<PostDbContext>(
+            options => options.UseNpgsql("Host=localhost;Database=bloggplattform;Username=postgres;Password=password")
+        );
         builder.Services.AddScoped<Register>();
 
         var app = builder.Build();
@@ -78,7 +88,7 @@ public string GetPostById(){
 
 public class MessageController : ControllerBase{
 [HttpPost("user/{userId}")]
-public void User([FromBody] User user)
+public new void User([FromBody] User user)
 {
  
 }
@@ -92,4 +102,10 @@ public class CommentController : ControllerBase
     public string Comments(){
         return "comments";
     }
+}
+
+public class ApplicationDBContext : IdentityDbContext<User>
+{
+    public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
+    : base(options){}
 }
