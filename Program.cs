@@ -16,13 +16,9 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddIdentity<User, IdentityRole>(options => {
-            options.Password.RequiredLength = 8;
-        })
-        .AddEntityFrameworkStores<ApplicationDBContext>();
         builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
         builder.Services.AddIdentityCore<User>()
-           //.AddEntityFrameworkStores<Post>()
+            .AddEntityFrameworkStores<PostDbContext>()
             .AddApiEndpoints();
         builder.Services.AddControllers();
         builder.Services.AddDbContext<PostDbContext>(
@@ -102,10 +98,4 @@ public class CommentController : ControllerBase
     public string Comments(){
         return "comments";
     }
-}
-
-public class ApplicationDBContext : IdentityDbContext<User>
-{
-    public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
-    : base(options){}
 }

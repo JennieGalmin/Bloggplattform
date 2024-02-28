@@ -30,11 +30,11 @@ public class PostDbContext : DbContext
 }
 
 
-
+/*
 public class GetAllPosts(){
     //hämta alla posts
 }
 
 public class GetPostById(){
     
-}
+}*/

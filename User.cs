@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+
 
 
 public class User : IdentityUser
@@ -20,9 +19,9 @@ public class User : IdentityUser
 
     }
 }
-public class UserMessage
+/*public class UserMessage
 {
 
 
-}
+}*/
 
