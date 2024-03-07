@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Auth;
 
-
-
+using Controllers;
 
 
 namespace Bloggplattform;
@@ -24,7 +21,8 @@ public class Program
         builder.Services.AddDbContext<PostDbContext>(
             options => options.UseNpgsql("Host=localhost;Database=bloggplattform;Username=postgres;Password=password")
         );
-        builder.Services.AddScoped<Register>();
+     
+        builder.Services.AddScoped<UserController>();
 
         var app = builder.Build();
 
@@ -37,9 +35,13 @@ public class Program
 
         app.Run();
     }
+
 }
 
-//POST/api/auth/register - Registrera användare. 
+
+
+
+/*//POST/api/auth/register - Registrera användare. 
 //POST/api/auth/login - Logga in en användare och generera ett access Token.
 [ApiController]
 [Route("api/auth")]
@@ -60,6 +62,7 @@ public class AuthControllers : ControllerBase
         return "Login";
     }
 }
+
 //GET/api/posts - Hämtar alla blogginlägg.
 //GET/api/posts/{postsId} - Hämtar ett specifikt blogginlägg.
 //POST/api/posts/{postsId}/comments - Kan kommentera på ett specifikt blogginlägg.
@@ -72,7 +75,7 @@ public class PostsControllers : ControllerBase
 public string GetAllPosts(){
  return "getallposts";
 }
-[HttpGet("/*postsId*/")]
+[HttpGet("/*postsId")]
 public string GetPostById(){
     return "getpostsbyId";
 }
@@ -98,4 +101,4 @@ public class CommentController : ControllerBase
     public string Comments(){
         return "comments";
     }
-}
+}*/

@@ -1,7 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Auth;
-public class Register{
-private List<User> users = new List<User>();
-//Sparar user i en lista, ska bytas ut till databasen
+public class Register
+{
 
 public User RegisterUser(string username, string password){
 // metod för att skapa ny användare med det angivna username och password
@@ -14,12 +15,17 @@ if(string.IsNullOrEmpty(username)){
 User user = new User(username, password);
 //Skapar en ny användarinsats med det angivna användarnamnet och lösenordet
 
-users.Add(user);
-// Lägger till den nya användarinsatsen till users listan
 return user;
-// returnerar den nya användarinsatsen
+// returnerar den nya användaren
 }
 
+}
+//lägger till reister user (auth) in i databasen
+public class AuthDbContext : DbContext
+{
+    public AuthDbContext(DbContextOptions<AuthDbContext> options ) : base(options)
+    {}
+    public DbSet<User> Users {get; set;}
 }
 
 /*
