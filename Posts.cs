@@ -1,33 +1,26 @@
-//skapa postId som kopplas till userId när man ska skriva inlägg
+using System;
+using Controllers;
 
-
-
-using Microsoft.EntityFrameworkCore;
-
+namespace Posts;
 public class Post
 {
     public int Id {get; set;}
     public string Title {get; set;}
     public string Content {get; set;}
     public DateTime CreationDate {get; set; }
-    public User User {get; set; }
+    public int UserId {get; set;}
 
     
 
-    public Post(string title, string content, User user){
+    public Post(string title, string content, int userId){
         this.Title = title;
         this.Content = content;
         this.CreationDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-        this.User = user;
+        this.UserId = userId;
     }
 }
 
-public class PostDbContext : DbContext
-{
-    public  DbSet<Post> posts {get; set;}
 
-    public PostDbContext(DbContextOptions<PostDbContext> options) : base(options){}
-}
 
 
 /*

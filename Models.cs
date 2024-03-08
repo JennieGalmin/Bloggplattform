@@ -1,21 +1,37 @@
+
 using Microsoft.AspNetCore.Identity;
 
 namespace Models;
 
-public class User : IdentityUser
+
+public class User : IdentityUser{
+    public new int Id {get; set;}
+    public string Name {get; set;}
+    public string Password {get; set;}
+
+    public User(){}
+
+    public User(int id, string name, string password){
+        this.Id = id;
+        this.Name = name;
+        this.Password = password;
+    }
+}
+
+public class Post
 {
+    public int Id {get; set;}
+    public string Title {get; set;}
+    public string Content {get; set;}
+    public DateTime CreationDate {get; set; }
+    public int UserId {get; set;}
+
     
-    public User() : base(){}
-    // en tom konstruktor eftersom det behövdes för att MapIdentityApi
-    public List<Post> Posts {get; set;} = new List<Post>();
-    // vill att posterna ska sparas till en viss användare, ska bytas ut till databas tror jag
 
-    public User(string username, string password) : base()
-    // User tar in två parametrar och anropas förälderklassen för User, vilket är IdentityUSer
-    {
-        UserName = username;
-        PasswordHash = password;
-    // Skriver in nya värden till parametrarna, så att namnen matchar.
-
+    public Post(string title, string content, int userId){
+        this.Title = title;
+        this.Content = content;
+        this.CreationDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+        this.UserId = userId;
     }
 }

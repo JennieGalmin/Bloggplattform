@@ -1,8 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using Controllers;
+using Models;
+using Data;
 
 
 namespace Bloggplattform;
@@ -13,14 +15,20 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        
+
         builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
         builder.Services.AddIdentityCore<User>()
             .AddEntityFrameworkStores<PostDbContext>()
             .AddApiEndpoints();
         builder.Services.AddControllers();
+
+
+        builder.Services.AddDbContext<RegisterUserDbContext>(options => 
+        options.UseNpgsql("Host=localhost;Database=bloggplattform;Username=postgres;Password=password"));
+
         builder.Services.AddDbContext<PostDbContext>(
-            options => options.UseNpgsql("Host=localhost;Database=bloggplattform;Username=postgres;Password=password")
-        );
+            options => options.UseNpgsql("Host=localhost;Database=bloggplattform;Username=postgres;Password=password"));
      
         builder.Services.AddScoped<UserController>();
 
