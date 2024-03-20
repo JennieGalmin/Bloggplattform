@@ -23,14 +23,16 @@ public class Program
             .AddApiEndpoints();
         builder.Services.AddControllers();
 
-
+        builder.Services.AddScoped<UserService.UserService>();
+        builder.Services.AddScoped<UserController>();
         builder.Services.AddDbContext<RegisterUserDbContext>(options => 
         options.UseNpgsql("Host=localhost;Database=bloggplattform;Username=postgres;Password=password"));
 
         builder.Services.AddDbContext<PostDbContext>(
             options => options.UseNpgsql("Host=localhost;Database=bloggplattform;Username=postgres;Password=password"));
      
-        builder.Services.AddScoped<UserController>();
+    
+        
 
         var app = builder.Build();
 

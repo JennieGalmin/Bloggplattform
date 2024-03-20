@@ -1,27 +1,34 @@
 using Data;
 using Models;
 
-
+namespace UserService
+{
 public class UserService{
-  private RegisterUserDbContext context;
 
-  public UserService(RegisterUserDbContext context){
-    this.context = context;
-  }  
-public User RegisterUser(string name, string password){
-     
-var newUser = new User{
-    Name = name,
-    Password = password
-};
-     context.Users.Add(newUser);
-     context.SaveChanges();
-    return newUser;
+private readonly RegisterUserDbContext userDbContext;
+public UserService(RegisterUserDbContext uDbContext){
+userDbContext = uDbContext;
+}
+public User CreateUser(string name, string password){
+
+if(string.IsNullOrEmpty(name)){
+  throw new ArgumentException("Namnet måste vara ifyllt");
+}
+if(string.IsNullOrEmpty(password)){
+  throw new ArgumentException("Lösenordet måste vara ifyllt");
+}
+
+User user = new User();
+
+userDbContext.Add(user);
+userDbContext.SaveChanges();
+return user;
+
+}
+}
 }
 
 
-
-}
 
 
      

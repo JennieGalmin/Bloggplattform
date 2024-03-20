@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Data;
+
+using UserService;
 using Models;
+
 
 namespace Controllers;
 
@@ -12,16 +14,22 @@ namespace Controllers;
 
 public class UserController : ControllerBase
 {
-    private readonly UserService userService;
-    public UserController(UserService userService)
+    private readonly UserService.UserService userService;
+    public UserController(UserService.UserService userService)
     {
         this.userService = userService;
     }
     [HttpPost("register")]
-    public IActionResult Register([FromBody]User user){
+    public IActionResult CreateUser([FromBody]User user){
 
         try{
-            userService.RegisterUser(user.Name, user.Password);
+            if(string.IsNullOrEmpty(user.UserName)){
+                return BadRequest("Du måste skriva in användarnamn");
+            }
+            if(string.IsNullOrEmpty(user.PasswordHash)){
+                return BadRequest("Du måste skriva in löserord");
+            }
+            userService.CreateUser(user.UserName, user.PasswordHash);
             return Ok("Användare registrerad");
         } catch (Exception){
            return NotFound();
